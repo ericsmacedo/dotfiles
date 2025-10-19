@@ -1,0 +1,13 @@
+
+
+# Enable history search with arrow keys
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward
+
+alias lt="tree -L 1"
+alias edi-work="ssh emacedo@ediws1158 -t 'tmux new -As dev'"
+alias aus-work="ssh emacedo@ediws1158 -t 'tmux new -As dev'"
+
+# Basic colorful prompt
+PROMPT='%F{cyan}%n%f@%F{yellow}%m%f:%F{green}%~%f %# '
+export PYTHONSTARTUP="/Users/emacedo/.pythonrc.py"

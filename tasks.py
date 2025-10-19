@@ -127,10 +127,6 @@ def link_configs(c):
     nvim_dst = HOME / ".config" / "nvim"
     if nvim_src.exists():
         symlink(nvim_src, nvim_dst)
-    # --- Clean up any previous Neovim state or plugin data ---
-    print("🧹 Cleaning up old Neovim state and plugins...")
-    run("rm -rf ~/.local/state/nvim", check=False)
-    run("rm -rf ~/.local/share/nvim", check=False)
 
     # tmux
     tmux_src = CONFIG_DIR / "tmux" / "tmux.conf"
@@ -139,10 +135,10 @@ def link_configs(c):
         symlink(tmux_src, tmux_dst)
 
     # zsh
-    # zshrc_src = CONFIG_DIR / "zsh" / ".zshrc"
-    # zshrc_dst = HOME / ".zshrc"
-    # if zshrc_src.exists():
-    #     symlink(zshrc_src, zshrc_dst)
+    zshrc_src = CONFIG_DIR / "zsh" / "zshrc"
+    zshrc_dst = HOME / ".zshrc"
+    if zshrc_src.exists():
+        symlink(zshrc_src, zshrc_dst)
 
     # Alacritty (entire directory)
     alacritty_src = CONFIG_DIR / "alacritty"
@@ -363,6 +359,11 @@ def install_neovim(c):
         tmp.unlink(missing_ok=True)
     else:
         raise RuntimeError(f"Unsupported combo: {sys} {arch}")
+
+    # --- Clean up any previous Neovim state or plugin data ---
+    print("🧹 Cleaning up old Neovim state and plugins...")
+    run("rm -rf ~/.local/state/nvim", check=False)
+    run("rm -rf ~/.local/share/nvim", check=False)
 
 
 @task
