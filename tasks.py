@@ -21,6 +21,9 @@ REPO_ROOT = Path(__file__).resolve().parent
 CONFIG_DIR = REPO_ROOT / "configs"
 BIN_DIR = REPO_ROOT / "bin"
 
+TMUX_PLUGINS_DIR = HOME / ".tmux" / "plugins"
+TPM_DIR = TMUX_PLUGINS_DIR / "tpm"
+
 FZF_VERSION = "0.66.0"
 FD_VERSION = "v10.3.0"
 RG_VERSION = "15.0.0"
@@ -124,6 +127,10 @@ def link_configs(c):
     nvim_dst = HOME / ".config" / "nvim"
     if nvim_src.exists():
         symlink(nvim_src, nvim_dst)
+    # --- Clean up any previous Neovim state or plugin data ---
+    print("🧹 Cleaning up old Neovim state and plugins...")
+    run("rm -rf ~/.local/state/nvim", check=False)
+    run("rm -rf ~/.local/share/nvim", check=False)
 
     # tmux
     tmux_src = CONFIG_DIR / "tmux" / "tmux.conf"
@@ -132,10 +139,10 @@ def link_configs(c):
         symlink(tmux_src, tmux_dst)
 
     # zsh
-    zshrc_src = CONFIG_DIR / "zsh" / ".zshrc"
-    zshrc_dst = HOME / ".zshrc"
-    if zshrc_src.exists():
-        symlink(zshrc_src, zshrc_dst)
+    # zshrc_src = CONFIG_DIR / "zsh" / ".zshrc"
+    # zshrc_dst = HOME / ".zshrc"
+    # if zshrc_src.exists():
+    #     symlink(zshrc_src, zshrc_dst)
 
     # Alacritty (entire directory)
     alacritty_src = CONFIG_DIR / "alacritty"
@@ -167,6 +174,57 @@ def link_bin_scripts(c):
 # Per-tool install tasks (macOS/Linux)
 # Each can be run independently.
 # -----------------------------
+
+
+@task
+def install_tpm(c):
+    """Install or update TPM (tmux plugin manager) in ~/.tmux/plugins/tpm."""
+    TMUX_PLUGINS_DIR.mkdir(parents=True, exist_ok=True)
+    if TPM_DIR.exists():
+        # Update TPM if it's already there
+        print(f"TPM already present at {TPM_DIR}, pulling latest...")
+        run(f"git -C '{TPM_DIR}' fetch --tags --all")
+        run(f"git -C '{TPM_DIR}' pull --ff-only")
+    else:
+        run(f"git clone https://github.com/tmux-plugins/tpm '{TPM_DIR}'")
+    print("✅ TPM installed/updated.")
+
+
+@task(pre=[install_tpm])
+def install_tmux_plugins(c):
+    """
+    Install tmux plugins declared in ~/.tmux.conf using TPM, non-interactively.
+    Creates a temporary tmux session to run TPM's installer, then kills it.
+    """
+    if not has_cmd("tmux"):
+        raise RuntimeError(
+            "tmux is not installed. Install tmux then re-run 'inv install-tmux-plugins'."
+        )
+
+    if not TPM_DIR.exists():
+        raise RuntimeError("TPM directory not found; run 'inv install-tpm' first.")
+
+    # Ensure TMUX_PLUGIN_MANAGER_PATH in env (TPM respects this)
+    env = os.environ.copy()
+    env["TMUX_PLUGIN_MANAGER_PATH"] = str(TMUX_PLUGINS_DIR)
+
+    # Start a server and a temporary session (safe if server already running)
+    # Name is unlikely to collide; kill at the end no matter what.
+    session_name = "__tpm_bootstrap"
+    run("tmux start-server", check=False)
+    run(f"tmux new-session -d -s {session_name} -n __tpm 'sleep 1'", check=False)
+
+    try:
+        # TPM provides both scripts/install_plugins.sh and bin/install_plugins.
+        # scripts/install_plugins.sh expects to run within a tmux server context.
+        tpm_install = TPM_DIR / "scripts" / "install_plugins.sh"
+        if not tpm_install.exists():
+            # Fall back to bin helper if scripts path changes
+            tpm_install = TPM_DIR / "bin" / "install_plugins"
+        run(f"'{tpm_install}'", env=env)
+        print("✅ tmux plugins installed.")
+    finally:
+        run(f"tmux kill-session -t {session_name}", check=False)
 
 
 @task(pre=[ensure_path])
@@ -214,15 +272,13 @@ def install_fd(c):
             tar = f"fd-{FD_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
             d = f"fd-{FD_VERSION}-x86_64-unknown-linux-gnu"
         else:
-            tar = f"fd-{FD_VERSION}-aarch64-unknown-linux-gnu.tar.gz"
-            d = f"fd-{FD_VERSION}-aarch64-unknown-linux-gnu"
+            raise RuntimeError(f"Unsupported OS: {sys}")
     elif sys == "darwin":
         if arch == "arm64":
             tar = f"fd-{FD_VERSION}-aarch64-apple-darwin.tar.gz"
             d = f"fd-{FD_VERSION}-aarch64-apple-darwin"
         else:
-            tar = f"fd-{FD_VERSION}-x86_64-apple-darwin.tar.gz"
-            d = f"fd-{FD_VERSION}-x86_64-apple-darwin"
+            raise RuntimeError(f"Unsupported OS: {sys}")
     else:
         raise RuntimeError(f"Unsupported OS: {sys}")
 
@@ -309,6 +365,32 @@ def install_neovim(c):
         raise RuntimeError(f"Unsupported combo: {sys} {arch}")
 
 
+@task
+def nvim_venv(c):
+    """
+    Create or update a Python virtual environment inside Neovim's config folder.
+    This venv is used by Neovim's Python-based tools (pynvim, ruff, black, etc.).
+    """
+    nvim_dir = Path.home() / ".config" / "nvim"
+    venv_dir = nvim_dir / ".venv"
+
+    if not nvim_dir.exists():
+        print("⚠️ Neovim config directory not found. Run 'inv link-configs' first.")
+        return
+
+    print(f"📦 Creating Neovim venv at {venv_dir}...")
+    # Use uv if available, else fallback to python -m venv
+    if shutil.which("uv"):
+        run(f"uv venv --clear --project {nvim_dir}")
+        run(f"uv sync --frozen --directory {nvim_dir}")
+    else:
+        print("❌ Neither uv nor python3 found; cannot create Neovim venv.")
+        return
+
+    print("✅ Neovim venv ready.")
+    print(f"To verify: {venv_dir}/bin/python -m pip list")
+
+
 # -----------------------------
 # Convenience meta tasks
 # -----------------------------
@@ -318,6 +400,7 @@ def install_neovim(c):
         install_fd,
         install_ripgrep,
         install_neovim,
+        install_ruff,
         link_bin_scripts,
     ]
 )
@@ -332,7 +415,14 @@ def configure_only(c):
     print("✅ Configuration complete.")
 
 
-@task(pre=[install_all_tools, link_configs])
+@task(
+    pre=[
+        install_all_tools,
+        link_configs,
+        install_tmux_plugins,
+        nvim_venv,
+    ]
+)
 def setup(c):
     """Full setup: install all tools, link configs, python env."""
     print("✅ Full setup complete. Restart your shell for PATH/profile changes.")

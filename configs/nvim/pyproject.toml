@@ -1,0 +1,19 @@
+[project]
+name = "dotfiles"
+version = "0.1.0"
+description = "Personal dotfiles setup using Invoke and uv"
+authors = [
+  { name = "Eric Macedo" }
+]
+requires-python = ">=3.13"
+
+dependencies = [
+  "jedi-language-server>=0.45.1",
+  "matplotlib>=3.10.7",
+  "numpy>=2.3.4",
+  "platformdirs>=4.0",
+  "pylint>=4.0.1",
+  "pynvim>=0.6.0",
+  "ruff>=0.14.1",
+]
+

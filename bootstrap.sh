@@ -69,7 +69,7 @@ main() {
   echo "Syncing dependencies with uv..."
   uv sync
 
-  #uv run inv setup
+  uv run inv setup
 
   echo "✅ Bootstrap complete."
   echo "This shell is now inside the virtual environment (.venv)."
