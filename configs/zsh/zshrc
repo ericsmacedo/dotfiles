@@ -11,3 +11,6 @@ alias aus-work="ssh emacedo@cadws1523 -t 'tmux new -As dev'"
 # Basic colorful prompt
 PROMPT='%F{cyan}%n%f@%F{yellow}%m%f:%F{green}%~%f %# '
 export PYTHONSTARTUP="/Users/emacedo/.pythonrc.py"
+export PATH="/Users/emacedo/.local/bin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

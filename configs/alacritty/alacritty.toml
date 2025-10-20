@@ -6,11 +6,6 @@ TERM = "xterm-256color"
 normal.family = "UbuntuMono Nerd Font"
 size = 16
 
-[[keyboard.bindings]]
-key = "Z"
-mods = "Command"
-chars = "\u0002"
-
 # ===============================
 #  Tmux-like Command Shortcuts
 #  Use ⌘ (Command) instead of Ctrl-b

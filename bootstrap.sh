@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 # Bootstrap script for dotfiles
 # - Ensures `uv` is installed (and adds it to PATH for this session)
-# - Uses `uv` to create & activate a local virtual environment
-# - Syncs dependencies from project.tmol (or pyproject.toml if present)
-# - Optionally runs `inv setup` if available
+# - runs `uv run inv setup` 
 
 set -euo pipefail
 
@@ -47,32 +45,9 @@ main() {
   REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
   cd "$REPO_DIR"
 
-  # Create (or reuse) a local venv with uv. You can pin Python by setting UV_PYTHON_VERSION=3.12, etc.
-  UV_PY="${UV_PYTHON_VERSION:-}"
-  if [[ -n "$UV_PY" ]]; then
-    echo "Creating venv with Python $UV_PY (via uv)..."
-    uv venv --python "$UV_PY" --clear
-  else
-    echo "Creating venv with uv (will download Python if needed)..."
-    uv venv --clear
-  fi
-
-  # Activate the environment for this shell
-  if [[ -f ".venv/bin/activate" ]]; then
-    # shellcheck disable=SC1091
-    source ".venv/bin/activate"
-  else
-    echo "❌ Could not find .venv/bin/activate. Something went wrong creating the environment."
-    exit 1
-  fi
-
-  echo "Syncing dependencies with uv..."
-  uv sync
-
   uv run inv setup
 
   echo "✅ Bootstrap complete."
-  echo "This shell is now inside the virtual environment (.venv)."
 }
 
 main "$@"

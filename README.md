@@ -61,13 +61,12 @@ dotfiles/
 git clone https://github.com/<your-username>/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 chmod +x bootstrap.sh
-source bootstrap.sh
+./bootstrap.sh
 ```
 
 This script will:
-1. Create a local Python virtual environment.
-2. Install the required Python dependencies (`invoke`).
-3. Run the full setup (tools + configs + Python environment).
+1. Download `uv` if not already installed 
+2. Run the full setup (tools + configs).
 
 ---
 
@@ -80,13 +79,8 @@ install uv:
 # 1.Install UV 
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-# 2. Create and activate the environment
-uv venv
-source .venv/bin/activate
-uv sync
-
 # 2. Run setup using Invoke
-inv setup
+uv run inv setup
 ```
 
 You can also run individual tasks:

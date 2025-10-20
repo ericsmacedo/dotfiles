@@ -109,6 +109,8 @@ vim.o.tabstop = 4             -- number of spaces in tab when editing
 vim.o.expandtab = true        -- tabs are spaces
 vim.o.shiftwidth = 4          -- number of spaces used for >> and << 
 
+vim.o.laststatus = 3          -- Have one status line per window
+
 
 vim.g.python3_host_prog = vim.call("expand", "~/.config/nvim/.venv/bin/python")
 
