@@ -19,11 +19,11 @@ dotfiles/
 │  ├─ tmux/
 │  │  └─ tmux.conf
 │  ├─ zsh/
-│  │  └─ .zshrc
+│  │  └─ zshrc
 │  ├─ alacritty/
 │  │  └─ alacritty.toml     # or your custom project.tmol
 │  └─ python/
-│     └─ .pythonrc.py
+│     └─ pythonrc.py
 └─ scripts/
    └─ post_install.sh       # Optional: custom post-setup actions
 ```
@@ -50,7 +50,6 @@ dotfiles/
 ## ⚙️ Installation
 
 ### Prerequisites
-- **Python 3.8+** installed
 - **curl** available
 - On macOS: [Homebrew](https://brew.sh/) is recommended (but not required)
 
@@ -62,7 +61,7 @@ dotfiles/
 git clone https://github.com/<your-username>/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 chmod +x bootstrap.sh
-./bootstrap.sh
+source bootstrap.sh
 ```
 
 This script will:
@@ -76,9 +75,15 @@ This script will:
 
 If you prefer to run things manually:
 
+install uv:
 ```bash
-# 1. Install Python dependencies
-pip install -r requirements.txt
+# 1.Install UV 
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 2. Create and activate the environment
+uv venv
+source .venv/bin/activate
+uv sync
 
 # 2. Run setup using Invoke
 inv setup
@@ -104,7 +109,7 @@ Example mappings:
 |------|---------|-------------|
 | Neovim | `configs/nvim/` | `~/.config/nvim/` |
 | Tmux | `configs/tmux/tmux.conf` | `~/.tmux.conf` |
-| Zsh | `configs/zsh/.zshrc` | `~/.zshrc` |
+| Zsh | `configs/zsh/zshrc` | `~/.zshrc` |
 | Alacritty | `configs/alacritty/` | `~/.config/alacritty/` |
 | Python RC | `configs/python/.pythonrc.py` | `~/.pythonrc.py` |
 
@@ -133,7 +138,7 @@ Installed tools include:
 ### 3. Python Environment Setup
 
 - Creates a virtual environment using `uv venv`.
-- Installs any dependencies from `requirements.txt`.
+- Installs any dependencies from the uv lock file.
 - Ensures your `.pythonrc.py` is loaded via `PYTHONSTARTUP`.
 
 ---
@@ -144,7 +149,6 @@ Installed tools include:
 inv --list          # Show all available tasks
 inv tools           # Install all tools
 inv configs         # Create config symlinks
-inv python-env      # Create Python venv
 inv setup           # Full install (recommended)
 ```
 
@@ -168,17 +172,6 @@ Each backup includes a timestamp (e.g. `.zshrc.20251019-142045`).
 - Add more configuration folders under `configs/`.
 - Extend `tasks.py` with more Invoke tasks (e.g. for Docker, Brew packages, etc.).
 - Add post-setup commands in `scripts/post_install.sh`.
-
----
-
-## Example: Add a New Tool
-
-If you want to add a new CLI tool:
-1. Edit `tasks.py` and extend the `install_linux_binaries()` and `install_macos_binaries()` functions.
-2. Re-run:
-   ```bash
-   inv tools
-   ```
 
 ---
 
