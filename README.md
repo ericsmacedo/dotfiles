@@ -112,6 +112,7 @@ Example mappings:
 | Zsh | `configs/zsh/zshrc` | `~/.zshrc` |
 | Alacritty | `configs/alacritty/` | `~/.config/alacritty/` |
 | Python RC | `configs/python/.pythonrc.py` | `~/.pythonrc.py` |
+| ECA | `configs/eca/config.json` | `~/.config/eca/config.json` |
 
 If a file already exists, it will be safely backed up to `~/.dotfiles_backup/` before being replaced.
 

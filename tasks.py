@@ -155,6 +155,12 @@ def link_configs(c):
         profile = HOME / (".zshrc" if shell.endswith("zsh") else ".bashrc")
         append_unique_line(profile, f'export PYTHONSTARTUP="{pythonrc_dst}"')
 
+    # eca config.json
+    eca_config_src = CONFIG_DIR / "eca" / "config.json"
+    eca_config_dst = HOME / ".config" / "eca" / "config.json"
+    if eca_config_src.exists():
+        symlink(eca_config_src, eca_config_dst)
+
 
 @task
 def link_bin_scripts(c):
