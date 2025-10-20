@@ -1,4 +1,4 @@
 {
   "defaultBehavior": "agent",
-  "defaultModel": null
+  "defaultModel": "github-copilot/gpt-4.1"
 }
