@@ -9,9 +9,9 @@ This repository contains my personal development environment configuration — a
 ```
 dotfiles/
 ├─ README.md                # You are here!
+├─ pyproject.toml
 ├─ tasks.py                 # Invoke tasks for setup and configuration
 ├─ bootstrap.sh             # One-liner setup script for fresh systems
-├─ requirements.txt         # Python dependencies (invoke, etc.)
 ├─ bin/                     # Custom scripts (added to ~/.local/bin)
 │  └─ rfv
 ├─ configs/                 # Configuration files for tools
