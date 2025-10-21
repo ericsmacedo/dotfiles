@@ -82,12 +82,26 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 uv run inv setup
 ```
 
-You can also run individual tasks:
+You can also run individual tasks by unsing [invoke](https://www.pyinvoke.org/) directly. Running `inv --list` outputs:
 
 ```bash
-inv tools       # Installs CLI tools (fzf, fd, rg, nvim, etc.)
-inv configs     # Symlinks configuration files
-inv python-env  # Creates Python venv
+Available tasks:
+
+  configure-only         Only link configs.
+  ensure-path            Ensure ~/.local/bin exists and is on PATH (zsh/bash).
+  install-all-tools      Install all CLI tools (runs individual tasks).
+  install-fd             Install fd (macOS via brew if available; else tarballs).
+  install-fzf            Install fzf (macOS via brew if available; else tarballs).
+  install-neovim         Install Neovim (brew on macOS if available; else official archives).
+  install-ripgrep        Install ripgrep (macOS via brew if available; else tarballs).
+  install-ruff           Install ruff (Python linter/formatter) via official script.
+  install-tmux-plugins   Install tmux plugins declared in ~/.tmux.conf using TPM, non-interactively.
+  install-tpm            Install or update TPM (tmux plugin manager) in ~/.tmux/plugins/tpm.
+  install-uv             Install uv (Python package manager) via official script.
+  link-bin-scripts       Symlink repo's ./bin executables into ~/.local/bin.
+  link-configs           Symlink config files and append custom lines as described in configs/config.yaml for this platform.
+  nvim-venv              Create or update a Python virtual environment inside Neovim's config folder.
+  setup                  Full setup: install all tools, link configs, python env.
 ```
 
 ---
