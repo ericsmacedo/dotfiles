@@ -97,18 +97,34 @@ inv python-env  # Creates Python venv
 
 ### 1. Configuration Management
 
-All configuration files are stored in the `configs/` folder and symlinked into the correct paths.  
-Example mappings:
-| Tool | Source | Destination |
-|------|---------|-------------|
-| Neovim | `configs/nvim/` | `~/.config/nvim/` |
-| Tmux | `configs/tmux/tmux.conf` | `~/.tmux.conf` |
-| Zsh | `configs/zsh/zshrc` | `~/.zshrc` |
-| Alacritty | `configs/alacritty/` | `~/.config/alacritty/` |
-| Python RC | `configs/python/.pythonrc.py` | `~/.pythonrc.py` |
-| ECA | `configs/eca/config.json` | `~/.config/eca/config.json` |
+All configuration file mappings are declared in `configs/config.yaml`. This YAML file specifies exactly which configs are linked, their source paths, destinations, and platform-specific details.
 
+**Example configuration (from `configs/config.yaml`):**
+```yaml
+configs:
+  - src: nvim/
+    dst: ~/.config/nvim/
+    platform: [linux, darwin]
+  - src: zsh/zshrc
+    dst: ~/.zshrc
+    platform: [darwin, linux]
+  - src: tmux/tmux.conf
+    dst: ~/.tmux.conf
+    platform: [darwin, linux]
+  # Add more mappings as needed
+```
+
+- `src`: Path to the config/file (relative to `configs/`)
+- `dst`: Destination path in your home directory
+- `platform`: Platform(s) for which this mapping should be applied (`darwin` = macOS, `linux` = Linux)
+- `append`: (optional) For configs requiring a line to be appended elsewhere (see `bashrc` example in the file)
+
+During setup, these mappings are symlinked to their corresponding destinations.  
 If a file already exists, it will be safely backed up to `~/.dotfiles_backup/` before being replaced.
+
+> **To customize which files/code are managed or where they are installed, edit `configs/config.yaml`.**
+
+_The full list of symlinked configs and their destinations is maintained in `configs/config.yaml`._
 
 ---
 
