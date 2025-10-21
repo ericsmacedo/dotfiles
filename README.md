@@ -82,9 +82,9 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 uv run inv setup
 ```
 
-You can also run individual tasks by unsing [invoke](https://www.pyinvoke.org/) directly. Running `inv --list` outputs:
+You can also run individual tasks by using [invoke](https://www.pyinvoke.org/) directly. Running `inv --list` outputs:
 
-```bash
+```
 Available tasks:
 
   configure-only         Only link configs.
