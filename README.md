@@ -15,6 +15,7 @@ dotfiles/
 ├─ bin/                     # Custom scripts (added to ~/.local/bin)
 │  └─ rfv
 ├─ configs/                 # Configuration files for tools
+│  ├─ config.yaml           # Configures how configs are mapped 
 │  ├─ nvim/                 # Neovim config (init.lua, plugins, etc.)
 │  ├─ tmux/
 │  │  └─ tmux.conf
@@ -24,8 +25,6 @@ dotfiles/
 │  │  └─ alacritty.toml     # or your custom project.tmol
 │  └─ python/
 │     └─ pythonrc.py
-└─ scripts/
-   └─ post_install.sh       # Optional: custom post-setup actions
 ```
 
 ---
@@ -50,7 +49,7 @@ dotfiles/
 ## ⚙️ Installation
 
 ### Prerequisites
-- **curl** available
+- **curl** and **git** available
 - On macOS: [Homebrew](https://brew.sh/) is recommended (but not required)
 
 ---
