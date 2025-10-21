@@ -57,7 +57,7 @@ dotfiles/
 ### Quick Install (Recommended)
 
 ```bash
-git clone https://github.com/<your-username>/dotfiles.git ~/dotfiles
+git clone https://github.com/ericsmacedo/dotfiles.git ~/dotfiles
 cd ~/dotfiles
 chmod +x bootstrap.sh
 ./bootstrap.sh
@@ -173,7 +173,6 @@ Each backup includes a timestamp (e.g. `.zshrc.20251019-142045`).
 - Add any scripts you want available globally into `bin/`.
 - Add more configuration folders under `configs/`.
 - Extend `tasks.py` with more Invoke tasks (e.g. for Docker, Brew packages, etc.).
-- Add post-setup commands in `scripts/post_install.sh`.
 
 ---
 
