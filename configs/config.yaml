@@ -1,0 +1,25 @@
+configs:
+  - src: nvim/
+    dst: ~/.config/nvim/
+    platform: [linux, darwin]
+  - src: zsh/zshrc
+    dst: ~/.zshrc
+    platform: [darwin, linux]
+  - src: tmux/tmux.conf
+    dst: ~/.tmux.conf
+    platform: [darwin, linux]
+  - src: python/.pythonrc.py
+    dst: ~/.pythonrc.py
+    platform: [darwin, linux]
+  - src: alacritty/
+    dst: ~/.config/alacritty/
+    platform: [darwin, linux]
+  - src: others/bashrc
+    dst: ~/.bashrc_personal
+    platform: [linux]
+    append:
+      line: 'source ~/.bashrc_personal'
+      file: ~/.bashrc
+  - src: others/inputrc
+    dst: ~/.inputrc
+    platform: [linux]

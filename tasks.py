@@ -8,6 +8,7 @@ import tarfile
 import time
 from pathlib import Path
 
+import yaml
 from invoke import task
 
 # -----------------------------
@@ -121,45 +122,35 @@ def ensure_path(c):
 
 @task
 def link_configs(c):
-    """Symlink config files from ./configs to the correct locations."""
-    # Neovim
-    nvim_src = CONFIG_DIR / "nvim"
-    nvim_dst = HOME / ".config" / "nvim"
-    if nvim_src.exists():
-        symlink(nvim_src, nvim_dst)
+    """
+    Symlink config files and append custom lines as described in configs/config.yaml for this platform.
+    """
+    config_file = CONFIG_DIR / "config.yaml"
+    if not config_file.exists():
+        print(f"Config file not found: {config_file}")
+        return
+    with open(config_file, "r") as f:
+        cfg = yaml.safe_load(f)
 
-    # tmux
-    tmux_src = CONFIG_DIR / "tmux" / "tmux.conf"
-    tmux_dst = HOME / ".tmux.conf"
-    if tmux_src.exists():
-        symlink(tmux_src, tmux_dst)
+    sys, _ = os_arch()
 
-    # zsh
-    zshrc_src = CONFIG_DIR / "zsh" / "zshrc"
-    zshrc_dst = HOME / ".zshrc"
-    if zshrc_src.exists():
-        symlink(zshrc_src, zshrc_dst)
-
-    # Alacritty (entire directory)
-    alacritty_src = CONFIG_DIR / "alacritty"
-    alacritty_dst = HOME / ".config" / "alacritty"
-    if alacritty_src.exists():
-        symlink(alacritty_src, alacritty_dst)
-
-    # Python RC
-    pythonrc_src = CONFIG_DIR / "python" / ".pythonrc.py"
-    pythonrc_dst = HOME / ".pythonrc.py"
-    if pythonrc_src.exists():
-        symlink(pythonrc_src, pythonrc_dst)
-        shell = os.environ.get("SHELL", "")
-        profile = HOME / (".zshrc" if shell.endswith("zsh") else ".bashrc")
-        append_unique_line(profile, f'export PYTHONSTARTUP="{pythonrc_dst}"')
-
-    # eca config.json
-    eca_config_src = CONFIG_DIR / "eca" / "config.json"
-    eca_config_dst = HOME / ".config" / "eca" / "config.json"
-    if eca_config_src.exists():
-        symlink(eca_config_src, eca_config_dst)
+    for entry in cfg.get("configs", []):
+        platforms = [p.lower() for p in entry.get("platform", [])]
+        if sys in platforms:
+            src = CONFIG_DIR / entry["src"]
+            dst = Path(os.path.expanduser(entry["dst"]))
+            if src.exists():
+                symlink(src, dst)
+                # New feature: append line to file if specified
+                if "append" in entry:
+                    append_info = entry["append"]
+                    append_line = append_info.get("line")
+                    append_file = append_info.get("file")
+                    if append_line and append_file:
+                        append_file_path = Path(os.path.expanduser(append_file))
+                        append_unique_line(append_file_path, append_line)
+            else:
+                print(f"Source does not exist: {src}")
 
 
 @task
