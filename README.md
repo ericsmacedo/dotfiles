@@ -46,7 +46,7 @@ dotfiles/
 
 ---
 
-## ⚙️ Installation
+##  Installation
 
 ### Prerequisites
 - **curl** and **git** available
@@ -145,15 +145,7 @@ Installed tools include:
 
 ---
 
-### 3. Python Environment Setup
-
-- Creates a virtual environment using `uv venv`.
-- Installs any dependencies from the uv lock file.
-- Ensures your `.pythonrc.py` is loaded via `PYTHONSTARTUP`.
-
----
-
-## 🧠 Useful Commands
+##  Useful Commands
 
 ```bash
 inv --list          # Show all available tasks
@@ -185,7 +177,7 @@ Each backup includes a timestamp (e.g. `.zshrc.20251019-142045`).
 
 ---
 
-## 🧹 Uninstall / Cleanup
+## Uninstall / Cleanup
 
 To revert all symlinks and restore backups:
 
@@ -212,8 +204,3 @@ find ~ -type l -lname '*dotfiles/configs*' -delete
 - [astral-sh/ruff](https://astral.sh)
 - [pyinvoke/invoke](https://www.pyinvoke.org/)
 
----
-
-## License
-
-MIT License — feel free to use or fork this repo to bootstrap your own environment.
