@@ -45,7 +45,7 @@ main() {
   REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
   cd "$REPO_DIR"
 
-  uv run inv setup
+  uv run --no-progress inv setup
 
   echo "✅ Bootstrap complete."
 }

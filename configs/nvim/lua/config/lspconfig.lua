@@ -10,6 +10,14 @@ vim.lsp.config('ruff', {
   }
 })
 
+vim.lsp.config('ty', {
+  settings = {
+    ty = {
+      -- ty language server settings go here
+    }
+  }
+})
+
 vim.lsp.config('pylsp', {
   cmd = {vim.call("expand", "~/.config/nvim/.venv/bin/pylsp")},
   settings = {

@@ -380,7 +380,7 @@ def nvim_venv(c):
     # Use uv if available, else fallback to python -m venv
     if shutil.which("uv"):
         run(f"uv venv --clear --project {nvim_dir}")
-        run(f"uv sync --frozen --directory {nvim_dir}")
+        run(f"uv sync --frozen --no-progress --directory {nvim_dir}")
     else:
         print("❌ Neither uv nor python3 found; cannot create Neovim venv.")
         return
