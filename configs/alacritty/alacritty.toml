@@ -11,52 +11,52 @@ size = 16
 #  Use ⌘ (Command) instead of Ctrl-b
 # ===============================
 
-[[keyboard.bindings]]  # New pane
-key = "C"
-mods = "Command"
-chars = "\u0002c"
-
-[[keyboard.bindings]]  # Close pane
-key = "X"
-mods = "Command"
-chars = "\u0002x"
-
-[[keyboard.bindings]]
-key = "Backslash"
-mods = "Command"
-chars = "\u0002%"
-
-[[keyboard.bindings]]  # Split horizontally (")
-key = "Minus"
-mods = "Command"
-chars = "\u0002\""
-
-[[keyboard.bindings]]  # Detach tmux session (d)
-key = "D"
-mods = "Command"
-chars = "\u0002d"
-
-[[keyboard.bindings]]  # Reload tmux config (r)
-key = "R"
-mods = "Command"
-chars = "\u0002r"
-
-[[keyboard.bindings]]  # Rename window (,)
-key = "Comma"
-mods = "Command"
-chars = "\u0002,"
-
-[[keyboard.bindings]]  # Next window (n)
-key = "N"
-mods = "Command"
-chars = "\u0002n"
-
-[[keyboard.bindings]]  # Previous window (p)
-key = "P"
-mods = "Command"
-chars = "\u0002p"
-
-[[keyboard.bindings]]  # Toggle last window (l)
-key = "L"
-mods = "Command"
-chars = "\u0002l"
+#[[keyboard.bindings]]  # New pane
+#key = "C"
+#mods = "Command"
+#chars = "\u0002c"
+#
+#[[keyboard.bindings]]  # Close pane
+#key = "X"
+#mods = "Command"
+#chars = "\u0002x"
+#
+#[[keyboard.bindings]]
+#key = "Backslash"
+#mods = "Command"
+#chars = "\u0002%"
+#
+#[[keyboard.bindings]]  # Split horizontally (")
+#key = "Minus"
+#mods = "Command"
+#chars = "\u0002\""
+#
+#[[keyboard.bindings]]  # Detach tmux session (d)
+#key = "D"
+#mods = "Command"
+#chars = "\u0002d"
+#
+#[[keyboard.bindings]]  # Reload tmux config (r)
+#key = "R"
+#mods = "Command"
+#chars = "\u0002r"
+#
+#[[keyboard.bindings]]  # Rename window (,)
+#key = "Comma"
+#mods = "Command"
+#chars = "\u0002,"
+#
+#[[keyboard.bindings]]  # Next window (n)
+#key = "N"
+#mods = "Command"
+#chars = "\u0002n"
+#
+#[[keyboard.bindings]]  # Previous window (p)
+#key = "P"
+#mods = "Command"
+#chars = "\u0002p"
+#
+#[[keyboard.bindings]]  # Toggle last window (l)
+#key = "L"
+#mods = "Command"
+#chars = "\u0002l"
