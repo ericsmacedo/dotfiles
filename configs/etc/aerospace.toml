@@ -112,18 +112,26 @@ automatically-unhide-macos-hidden-apps = true
     alt-equal = 'resize smart +50'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#workspace
-    cmd-1 = 'workspace 1'
-    cmd-2 = 'workspace 2'
-    cmd-3 = 'workspace 3'
-    cmd-4 = 'workspace 4'
-    cmd-5 = 'workspace 5'
+    alt-1 = 'workspace 1'
+    alt-2 = 'workspace 2'
+    alt-4 = 'workspace 4'
+    alt-5 = 'workspace 5'
+    alt-t = 'workspace t'
+    alt-z = 'workspace z'
+    alt-w = 'workspace w'
+    alt-s = 'workspace s'
+    alt-o = 'workspace o'
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
     alt-shift-1 = 'move-node-to-workspace 1'
     alt-shift-2 = 'move-node-to-workspace 2'
-    alt-shift-3 = 'move-node-to-workspace 3'
     alt-shift-4 = 'move-node-to-workspace 4'
     alt-shift-5 = 'move-node-to-workspace 5'
+    alt-shift-t = 'move-node-to-workspace t'
+    alt-shift-z = 'move-node-to-workspace z'
+    alt-shift-w = 'move-node-to-workspace w'
+    alt-shift-s = 'move-node-to-workspace s'
+    alt-shift-o = 'move-node-to-workspace o'
 
     alt-f = 'fullscreen'
 
@@ -154,3 +162,20 @@ automatically-unhide-macos-hidden-apps = true
     down = 'volume down'
     up = 'volume up'
     shift-down = ['volume set 0', 'mode main']
+
+
+[[on-window-detected]]
+    if.app-id = 'com.todoist.mac.Todoist'
+    run = ['layout floating']  # The callback itself
+
+[[on-window-detected]]
+    if.app-id = 'org.python.python'
+    run = ['layout floating']  # The callback itself
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = ['move-node-to-workspace s']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Outlook'
+run = ['move-node-to-workspace o']  
