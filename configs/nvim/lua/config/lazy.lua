@@ -1,7 +1,3 @@
-
-require "config.options"
-require "config.keymaps"
-
 -- Bootstrap lazy.nvim
 -- Instructions from: https://lazy.folke.io/installation
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
