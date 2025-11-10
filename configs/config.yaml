@@ -12,10 +12,10 @@ configs:
     platform: [linux]
 
   - src: tmux/tmux.conf
-    dt: ~/.tmux.conf
+    dst: ~/.tmux.conf
     platform: [darwin, linux]
 
-  - rc: python/.pythonrc.py
+  - src: python/.pythonrc.py
     dst: ~/.pythonrc.py
     platform: [darwin, linux]
 
