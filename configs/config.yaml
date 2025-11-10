@@ -40,5 +40,9 @@ configs:
     dst: ~/.config/eca/config.json
     platform: [darwin, linux]
 
+  - src: etc/p10k.zsh
+    dst: ~/.p10k.zsh
+    platform: [darwin, linux]
+
 
 

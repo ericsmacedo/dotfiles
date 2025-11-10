@@ -392,12 +392,25 @@ def nvim_venv(c):
 # -----------------------------
 # Convenience meta tasks
 # -----------------------------
+@task
+def install_powerlevel10k(c):
+    """Manual install Powerlevel10k to ~/.config/powerlevel10k."""
+    target = HOME / ".config" / "powerlevel10k"
+    if target.exists():
+        print(f"Powerlevel10k already present at {target}, pulling latest...")
+        run(f"git -C '{target}' fetch --tags --all")
+        run(f"git -C '{target}' pull --ff-only")
+    else:
+        run(f"git clone --depth=1 https://github.com/romkatv/powerlevel10k.git '{target}'")
+    print("✅ Powerlevel10k installed/updated.")
+
 @task(
     pre=[
         install_fzf,
         install_fd,
         install_ripgrep,
         install_neovim,
+        install_powerlevel10k,
         install_ruff,
         link_bin_scripts,
     ]
