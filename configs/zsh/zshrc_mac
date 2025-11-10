@@ -1,0 +1,28 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Enable history search with arrow keys
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward
+
+# User alias
+alias lt="tree -L 1 -C --dirsfirst"
+alias edi-work="ssh emacedo@ediws1158 -t 'tmux new -As dev'"
+alias aus-work="ssh emacedo@cadws1523 -t 'tmux new -As dev'"
+
+# Basic colorful prompt
+PROMPT='%F{cyan}%n%f@%F{yellow}%m%f:%F{green}%~%f %# '
+export PYTHONSTARTUP="/Users/emacedo/.pythonrc.py"
+export PATH="/Users/emacedo/.local/bin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+source ~/.config/powerlevel10k/powerlevel10k.zsh-theme
+source ~/.config/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
