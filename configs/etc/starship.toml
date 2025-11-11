@@ -3,7 +3,7 @@
 # Define the prompt layout
 # First line: username@hostname:directory (colored)
 # Second line: prompt character ($)
-format = "$username@$hostname:$directory\n$character "
+format = "$username@$hostname:$directory\n$character"
 
 # Keep a clean newline at the end
 add_newline = true
