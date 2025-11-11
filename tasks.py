@@ -372,23 +372,42 @@ def install_eza(c):
         print("✅ eza installed via Homebrew.")
         return
 
-    version = "v0.18.16"  # Latest as of 2024-06
     ensure_dir(LOCAL_BIN)
-    if sys == "linux":
-        if arch == "x86_64":
-            tar = f"eza_{version}_linux-x86_64.tar.gz"
-            url = f"https://github.com/eza-community/eza/releases/download/{version}/{tar}"
-            tmp = Path.cwd() / tar
-            curl_download(url, tmp)
-            extract_targz(tmp, Path.cwd())
-            shutil.move(str(Path("eza") / "eza"), str(LOCAL_BIN / "eza"))
-            shutil.rmtree("eza", ignore_errors=True)
-            tmp.unlink(missing_ok=True)
-            print("✅ eza installed for Linux (x86_64).")
-        else:
-            raise RuntimeError(f"Unsupported architecture for eza: {arch}")
-    else:
-        raise RuntimeError(f"Unsupported OS for eza: {sys}")
+    # Map arch to eza asset arch
+    arch_map = {
+        "x86_64": "x86_64-unknown-linux-gnu",
+        "aarch64": "aarch64-unknown-linux-gnu",
+        "arm64": "aarch64-unknown-linux-gnu",
+    }
+
+    if arch not in arch_map:
+        raise RuntimeError(f"Unsupported architecture for eza: {arch}")
+
+    asset = f"eza_{arch_map[arch]}.tar.gz"
+    url = f"https://github.com/eza-community/eza/releases/latest/download/{asset}"
+
+    # download to a temp file in CWD (or use tempfile.TemporaryDirectory)
+    tmp = Path.cwd() / asset
+    curl_download(url, tmp)
+
+    # Extract robustly (auto-detect compression) and move the binary
+    extract_dir = Path.cwd() / ".eza-extract"
+    extract_dir.mkdir(exist_ok=True)
+    try:
+        import tarfile
+        with tarfile.open(tmp, "r:*") as tar:
+            tar.extractall(extract_dir)
+        # find the 'eza' binary in the extracted content
+        eza_bin = next((p for p in extract_dir.rglob("eza") if p.is_file()), None)
+        if not eza_bin:
+            raise RuntimeError("Downloaded archive did not contain 'eza' binary.")
+        shutil.move(str(eza_bin), str(LOCAL_BIN / "eza"))
+        (LOCAL_BIN / "eza").chmod(0o755)
+        print("✅ eza installed to", LOCAL_BIN / "eza")
+    finally:
+        shutil.rmtree(extract_dir, ignore_errors=True)
+        tmp.unlink(missing_ok=True)
+
 
 def install_starship(c):
     """Install starship (brew on macOS if available; else official script otherwise)."""
