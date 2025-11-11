@@ -364,6 +364,18 @@ def install_neovim(c):
 
 
 @task
+def install_starship(c):
+    """Install starship (brew on macOS if available; else official script otherwise)."""
+    sys, arch = os_arch()
+    if sys == "darwin" and has_cmd("brew"):
+        run("brew install starship")
+        return
+    # For Linux and fallback on macOS
+    run("curl -sS https://starship.rs/install.sh | sh")
+    print("✅ Starship installed.")
+
+
+@task
 def nvim_venv(c):
     """
     Create or update a Python virtual environment inside Neovim's config folder.
@@ -389,29 +401,14 @@ def nvim_venv(c):
     print(f"To verify: {venv_dir}/bin/python -m pip list")
 
 
-# -----------------------------
-# Convenience meta tasks
-# -----------------------------
-@task
-def install_powerlevel10k(c):
-    """Manual install Powerlevel10k to ~/.config/powerlevel10k."""
-    target = HOME / ".config" / "powerlevel10k"
-    if target.exists():
-        print(f"Powerlevel10k already present at {target}, pulling latest...")
-        run(f"git -C '{target}' fetch --tags --all")
-        run(f"git -C '{target}' pull --ff-only")
-    else:
-        run(f"git clone --depth=1 https://github.com/romkatv/powerlevel10k.git '{target}'")
-    print("✅ Powerlevel10k installed/updated.")
-
 @task(
     pre=[
         install_fzf,
         install_fd,
         install_ripgrep,
         install_neovim,
-        install_powerlevel10k,
         install_ruff,
+        install_starship,
         link_bin_scripts,
     ]
 )

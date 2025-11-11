@@ -8,3 +8,5 @@ alias lt="tree -L 1 -C --dirsfirst"
 # tell perfoce which tool to use for diffs
 export P4DIFF="nvim -d"
 export PYTHONSTARTUP="/home/emacedo/.pythonrc.py"
+
+eval "$(starship init bash)"

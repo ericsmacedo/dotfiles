@@ -1,0 +1,29 @@
+# ~/.config/starship.toml
+
+# Define the prompt layout
+# First line: username@hostname:directory (colored)
+# Second line: prompt character ($)
+format = "$username@$hostname:$directory\n$character "
+
+# Keep a clean newline at the end
+add_newline = true
+
+# --- Username ---
+[username]
+show_always = true
+style_user = "cyan"
+style_root = "red"
+format = "[$user]($style)"
+
+# --- Hostname ---
+[hostname]
+ssh_only = false
+style = "yellow"
+format = "[$hostname]($style)"
+
+# --- Directory ---
+[directory]
+style = "green"
+truncation_length = 3
+truncate_to_repo = false
+format = "[$path]($style)"
