@@ -364,6 +364,32 @@ def install_neovim(c):
 
 
 @task(pre=[ensure_path])
+def install_eza(c):
+    """Install eza (brew on macOS if available; else GitHub release on Linux)."""
+    sys, arch = os_arch()
+    if sys == "darwin" and has_cmd("brew"):
+        run("brew install eza")
+        print("✅ eza installed via Homebrew.")
+        return
+
+    version = "v0.18.16"  # Latest as of 2024-06
+    ensure_dir(LOCAL_BIN)
+    if sys == "linux":
+        if arch == "x86_64":
+            tar = f"eza_{version}_linux-x86_64.tar.gz"
+            url = f"https://github.com/eza-community/eza/releases/download/{version}/{tar}"
+            tmp = Path.cwd() / tar
+            curl_download(url, tmp)
+            extract_targz(tmp, Path.cwd())
+            shutil.move(str(Path("eza") / "eza"), str(LOCAL_BIN / "eza"))
+            shutil.rmtree("eza", ignore_errors=True)
+            tmp.unlink(missing_ok=True)
+            print("✅ eza installed for Linux (x86_64).")
+        else:
+            raise RuntimeError(f"Unsupported architecture for eza: {arch}")
+    else:
+        raise RuntimeError(f"Unsupported OS for eza: {sys}")
+
 def install_starship(c):
     """Install starship (brew on macOS if available; else official script otherwise)."""
     sys, arch = os_arch()
@@ -401,17 +427,16 @@ def nvim_venv(c):
     print(f"To verify: {venv_dir}/bin/python -m pip list")
 
 
-@task(
-    pre=[
-        install_fzf,
-        install_fd,
-        install_ripgrep,
-        install_neovim,
-        install_ruff,
-        install_starship,
-        link_bin_scripts,
-    ]
-)
+@task(pre=[
+    install_fzf,
+    install_fd,
+    install_ripgrep,
+    install_neovim,
+    install_ruff,
+    install_starship,
+    install_eza,
+    link_bin_scripts,
+])
 def install_all_tools(c):
     """Install all CLI tools (runs individual tasks)."""
     print("✅ All tools installed (individual tasks).")

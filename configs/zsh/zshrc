@@ -3,9 +3,10 @@ bindkey "^[[A" history-beginning-search-backward
 bindkey "^[[B" history-beginning-search-forward
 
 # User alias
-alias lt="tree -L 1 -C --dirsfirst"
+# alias lt="tree -L 1 -C --dirsfirst"
 alias edi-work="ssh emacedo@ediws1158 -t 'tmux new -As dev'"
 alias aus-work="ssh emacedo@cadws1523 -t 'tmux new -As dev'"
+alias lt="eza --tree --level 2"
 
 # Basic colorful prompt
 PROMPT='%F{cyan}%n%f@%F{yellow}%m%f:%F{green}%~%f %# '
