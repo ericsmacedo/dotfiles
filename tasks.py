@@ -409,6 +409,7 @@ def install_eza(c):
         tmp.unlink(missing_ok=True)
 
 
+@task
 def install_starship(c):
     """Install starship (brew on macOS if available; else official script otherwise)."""
     sys, arch = os_arch()
