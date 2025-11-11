@@ -363,7 +363,7 @@ def install_neovim(c):
     run("rm -rf ~/.local/share/nvim", check=False)
 
 
-@task
+@task(pre=[ensure_path])
 def install_starship(c):
     """Install starship (brew on macOS if available; else official script otherwise)."""
     sys, arch = os_arch()
@@ -371,7 +371,7 @@ def install_starship(c):
         run("brew install starship")
         return
     # For Linux and fallback on macOS
-    run("curl -sS https://starship.rs/install.sh | sh")
+    run("curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir ~/.local/bin")
     print("✅ Starship installed.")
 
 
