@@ -371,7 +371,7 @@ def install_starship(c):
         run("brew install starship")
         return
     # For Linux and fallback on macOS
-    run("curl -sS https://starship.rs/install.sh | sh -s -- --bin-dir ~/.local/bin")
+    run("curl -sS https://starship.rs/install.sh | sh -s -- -y --bin-dir ~/.local/bin")
     print("✅ Starship installed.")
 
 
