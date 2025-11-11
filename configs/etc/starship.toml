@@ -3,27 +3,32 @@
 # Define the prompt layout
 # First line: username@hostname:directory (colored)
 # Second line: prompt character ($)
-format = "$username@$hostname:$directory\n$character"
+format = """
+$hostname\
+$directory\
+$git_branch\
+$git_status\
+$fill\
+$python\
+$cmd_duration\
+$jobs\
+$line_break\
+$character\
+"""
 
-# Keep a clean newline at the end
-add_newline = true
+[fill]
+symbol = " "
+style = "bold cyan"
 
-# --- Username ---
-[username]
-show_always = true
-style_user = "cyan"
-style_root = "red"
-format = "[$user]($style)"
+[python]
+format = '[${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
 
-# --- Hostname ---
-[hostname]
-ssh_only = false
-style = "yellow"
-format = "[$hostname]($style)"
+[git_branch]
+style = 'fg:green'
+symbol = ' '
+format = '[on](white) [$symbol$branch ]($style)'
 
-# --- Directory ---
-[directory]
-style = "green"
-truncation_length = 3
-truncate_to_repo = false
-format = "[$path]($style)"
+[cmd_duration]
+min_time = 500
+style = 'fg:gray'
+format = '[$duration]($style)'
