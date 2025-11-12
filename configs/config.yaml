@@ -3,13 +3,9 @@ configs:
     dst: ~/.config/nvim/
     platform: [linux, darwin]
 
-  - src: zsh/zshrc_mac
+  - src: zsh/zshrc
     dst: ~/.zshrc
     platform: [darwin]
-
-  - src: zsh/zshrc_linux
-    dst: ~/.zshrc
-    platform: [linux]
 
   - src: tmux/tmux.conf
     dst: ~/.tmux.conf
