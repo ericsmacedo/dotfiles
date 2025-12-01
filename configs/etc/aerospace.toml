@@ -167,12 +167,16 @@ automatically-unhide-macos-hidden-apps = true
 
 
 [[on-window-detected]]
-    if.app-id = 'com.todoist.mac.Todoist'
-    run = ['layout floating']  # The callback itself
+if.app-id = 'com.todoist.mac.Todoist'
+run = ['layout floating']  # The callback itself
 
 [[on-window-detected]]
-    if.app-id = 'org.python.python'
-    run = ['layout floating']  # The callback itself
+if.app-id = 'org.python.python'
+run = ['layout floating']  # The callback itself
+
+[[on-window-detected]]
+if.app-id = 'com.mathworks.matlab'
+run = ['layout floating']  # The callback itself
 
 [[on-window-detected]]
 if.app-id = 'com.spotify.client'
@@ -186,10 +190,10 @@ run = ['move-node-to-workspace o']
 if.app-id = 'us.zoom.xos'
 run = ['move-node-to-workspace z']
 
-[[on-window-detected]]
-if.app-id = 'org.alacritty'
-run = ['move-node-to-workspace t']
+#[[on-window-detected]]
+#if.app-id = 'org.alacritty'
+#run = ['move-node-to-workspace t']
 
-[[on-window-detected]]
-if.app-id = 'com.brave.Browser'
-run = ['move-node-to-workspace b']
+#[[on-window-detected]]
+#if.app-id = 'com.brave.Browser'
+#run = ['move-node-to-workspace b']
