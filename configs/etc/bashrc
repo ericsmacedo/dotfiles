@@ -9,5 +9,7 @@ alias lt="eza -l --tree --level 1 --classify=always --color=always --group-direc
 # tell perfoce which tool to use for diffs
 export P4DIFF="nvim -d"
 export PYTHONSTARTUP="/home/emacedo/.pythonrc.py"
+export ECA_CONFIG='{"defaultBehavior":"agent","defaultModel":"github-copilot/gpt-4.1"}'
 
+nvim
 eval "$(starship init bash)"
