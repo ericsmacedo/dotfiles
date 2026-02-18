@@ -13,11 +13,6 @@ return {
   },
   build = "make",
   opts = {
-    providers = {
-      copilot  = {
-        model = "copilot/gpt-4.1",
-      },
-    },
     provider = "copilot",
   },
 }
