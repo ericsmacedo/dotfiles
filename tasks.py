@@ -5,8 +5,11 @@ import platform
 import shutil
 import subprocess
 import tarfile
+import tempfile
 import time
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Callable, Dict, Optional
 
 import yaml
 from invoke import task
@@ -34,6 +37,23 @@ NVIM_LINUX_X64 = "https://github.com/neovim/neovim-releases/releases/download/v0
 NVIM_MAC_ARM_TAR = (
     "https://github.com/neovim/neovim/releases/latest/download/nvim-macos-arm64.tar.gz"
 )
+
+
+@dataclass(frozen=True)
+class ArchiveInfo:
+    url: str
+    binary_path: Optional[str] = None
+    search_name: Optional[str] = None
+    dest_name: Optional[str] = None
+
+
+@dataclass
+class ToolDefinition:
+    brew: Optional[str] = None
+    archives: Optional[Dict[str, ArchiveInfo]] = None
+    script: Optional[str] = None
+    post_install: Optional[Callable[[], None]] = None
+    custom: Optional[Callable[[str, str], None]] = None
 
 
 def run(cmd, check=True, env=None):
