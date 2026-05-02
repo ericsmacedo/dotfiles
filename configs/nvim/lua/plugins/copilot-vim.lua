@@ -1,20 +1,12 @@
-
 return {
-  "github/copilot.vim",
+  "zbirenbaum/copilot.lua",
+
+  requires = {
+    "copilotlsp-nvim/copilot-lsp", -- (optional) for NES functionality
+  },
   cmd = "Copilot",
-  event = "BufWinEnter",
-  init = function()
-    -- don't install Copilot's default keymaps
-    vim.g.copilot_no_maps = true
-  end,
+  event = "InsertEnter",
   config = function()
-    -- Turn on Copilot's LSP backend without its inline suggestion UI
-    vim.api.nvim_create_autocmd({ "FileType", "BufUnload" }, {
-      group = vim.api.nvim_create_augroup("github_copilot", { clear = true }),
-      callback = function(args)
-        vim.fn["copilot#On" .. args.event]()
-      end,
-    })
-    vim.fn["copilot#OnFileType"]()
+    require("copilot").setup({})
   end,
 }
