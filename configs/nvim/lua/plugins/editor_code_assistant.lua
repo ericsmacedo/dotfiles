@@ -12,7 +12,9 @@ return {
     { "<leader>at", "<cmd>EcaToggle<cr>", desc = "Toggle ECA sidebar" },
   },
   opts = {
-    debug = true,
+    debug = false,
+    server_args = "--config-file " .. vim.fn.expand("~/.config/eca/config.json"),
+    -- server_args = "--config-file /home/emacedo/.config/eca/config.json",
     server_path = "",
     behavior = {
       auto_set_keymaps = false,
