@@ -6,6 +6,7 @@ from tempfile import TemporaryDirectory
 from unittest.mock import call, patch
 
 from dotfiles.neovim import install_neovim, setup_python_environment
+from dotfiles.nodejs import NVM_INSTALL_URL, NVM_VERSION, install_nodejs
 from dotfiles.tmux import BOOTSTRAP_SESSION, install_tmux_plugins, install_tpm
 
 
@@ -126,6 +127,28 @@ class TmuxTests(unittest.TestCase):
                 environment["TMUX_PLUGIN_MANAGER_PATH"],
                 str(home / ".tmux" / "plugins"),
             )
+
+
+class NodejsTests(unittest.TestCase):
+    def test_installs_nvm_then_nodejs_lts(self):
+        with TemporaryDirectory() as directory:
+            home = Path(directory) / "home"
+
+            with patch("dotfiles.nodejs.run") as run:
+                install_nodejs(home)
+
+            self.assertEqual(run.call_count, 3)
+            download, install_nvm, install_node = run.call_args_list
+            self.assertEqual(download.args[:3], ("curl", "-fsSL", NVM_INSTALL_URL))
+            self.assertEqual(install_nvm.args[0], "bash")
+            self.assertEqual(install_node.args[:2], ("bash", "-c"))
+            self.assertIn("nvm install --lts", install_node.args[2])
+            self.assertEqual(install_node.kwargs["env"]["HOME"], str(home))
+            self.assertEqual(
+                install_node.kwargs["env"]["NVM_DIR"],
+                str(home / ".nvm"),
+            )
+            self.assertEqual(NVM_VERSION, "v0.39.7")
 
 
 if __name__ == "__main__":

@@ -45,6 +45,7 @@ dotfiles/registry.py     Tool list
 dotfiles/installer.py    Tool installation
 dotfiles/configuration.py Config file linking
 dotfiles/neovim.py       Neovim setup
+dotfiles/nodejs.py       Node.js setup
 dotfiles/tmux.py         TPM and tmux plugin setup
 configs/config.yaml      Config file locations
 configs/                 Managed config files
@@ -57,6 +58,7 @@ tests/                   Unit tests
 The setup installs:
 
 - Neovim
+- Node.js
 - fzf
 - fd
 - ripgrep
@@ -64,7 +66,9 @@ The setup installs:
 - eza
 - Starship
 
-`uv` is installed by the bootstrap script. Neovim and tmux use separate setup code. The other tools are listed in `dotfiles/registry.py`.
+`uv` is installed by the bootstrap script. Node.js, Neovim, and tmux use separate setup code. The other tools are listed in `dotfiles/registry.py`.
+
+Node.js is installed through NVM. The NVM version is pinned, and `nvm install --lts` installs the current Node.js LTS release.
 
 On macOS, Homebrew is used when available. Otherwise, the setup downloads a release file or runs the tool's install script.
 

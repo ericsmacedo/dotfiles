@@ -12,6 +12,7 @@ from dotfiles.files import append_unique_line, ensure_directory
 from dotfiles.installer import install_tool as install_registered_tool
 from dotfiles.neovim import install_neovim as install_neovim_for_current_platform
 from dotfiles.neovim import setup_python_environment
+from dotfiles.nodejs import install_nodejs as install_nodejs_for_current_platform
 from dotfiles.registry import default_tool_names
 from dotfiles.tmux import install_tmux_plugins as install_configured_tmux_plugins
 from dotfiles.tmux import install_tpm as install_tpm_manager
@@ -115,6 +116,12 @@ def install_neovim(c):
 
 
 @task(pre=[ensure_path])
+def install_nodejs(c):
+    """Install NVM and the current Node.js LTS release."""
+    install_nodejs_for_current_platform(HOME)
+
+
+@task(pre=[ensure_path])
 def install_eza(c):
     """Install eza (brew on macOS if available; else GitHub release on Linux)."""
     install_registered_tool("eza", LOCAL_BIN)
@@ -137,6 +144,7 @@ def install_all_tools(c):
     """Install every default registry tool and specialized tool."""
     for name in default_tool_names():
         install_registered_tool(name, LOCAL_BIN)
+    install_nodejs_for_current_platform(HOME)
     install_neovim_for_current_platform(HOME, LOCAL_BIN)
     link_executable_scripts(BIN_DIR, LOCAL_BIN)
     print("✅ All tools installed.")
