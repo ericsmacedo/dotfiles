@@ -11,7 +11,7 @@ from .system import detect_platform
 
 LINUX_X86_64_URL = (
     "https://github.com/neovim/neovim-releases/releases/download/"
-    "v0.11.3/nvim-linux-x86_64.appimage"
+    "v0.12.5/nvim-linux-x86_64.appimage"
 )
 MACOS_ARM64_URL = (
     "https://github.com/neovim/neovim/releases/latest/download/nvim-macos-arm64.tar.gz"
