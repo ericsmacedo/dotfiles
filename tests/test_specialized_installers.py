@@ -15,6 +15,8 @@ class NeovimTests(unittest.TestCase):
         with TemporaryDirectory() as directory:
             home = Path(directory)
             local_bin = home / ".local" / "bin"
+            local_bin.mkdir(parents=True)
+            (local_bin / "nvim").write_text("old appimage")
             state = home / ".local" / "state" / "nvim"
             plugins = home / ".local" / "share" / "nvim"
             state.mkdir(parents=True)

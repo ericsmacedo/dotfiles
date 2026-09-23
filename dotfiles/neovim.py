@@ -63,13 +63,19 @@ def setup_python_environment(home: Path = Path.home()) -> None:
 
 
 def _install_linux_appimage(local_bin: Path) -> None:
-    with tempfile.TemporaryDirectory(prefix="dotfiles-neovim-") as directory:
-        download = Path(directory) / "nvim.appimage"
-        run("curl", "-L", LINUX_X86_64_URL, "-o", download)
+    with tempfile.NamedTemporaryFile(
+        prefix=".nvim-",
+        dir=local_bin,
+        delete=False,
+    ) as temporary_file:
+        download = Path(temporary_file.name)
 
-        destination = local_bin / "nvim"
-        shutil.move(download, destination)
-        destination.chmod(0o755)
+    try:
+        run("curl", "-fL", LINUX_X86_64_URL, "-o", download)
+        download.chmod(0o755)
+        download.replace(local_bin / "nvim")
+    finally:
+        download.unlink(missing_ok=True)
 
 
 def _install_macos_tree(home: Path, local_bin: Path) -> None:
